@@ -1,7 +1,9 @@
-function Button({btnText}){
+function Button({btnText, bgColor}){
     return(
         <>
-            <button className="btn-primary">{btnText}</button>
+            <button className={`${bgColor}`}>
+                {btnText}
+            </button>
         </>
     )
 }
