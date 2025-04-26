@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@layer components{
+    .task-container-box{
+        @apply bg-[#efefef] p-6 m-2 w-full  
+    }
+
+    .main-task-container{
+        @apply flex justify-center items-center w-full max-w-4xl p-4
+    }
+
+    .btn-primary{
+        @apply p-4 border-0 rounded-2xl
+    }
+
+
+}
+
+@layer utilities {
+    .flex-center{ 
+        @apply flex justify-center items-center
+    }
+}
