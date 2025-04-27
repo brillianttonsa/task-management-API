@@ -20,10 +20,9 @@ function App() {
     <main className="bg-gray-200 min-h-screen m-0 w-full p-8">
       <div className="w-full max-w-2xl mx-auto">
         <Router>
-          <SubHeader/>
           <Routes>
             <Route path="/" element={<Home/>}/>
-            <Route path="/add/:id" element={<AddTask/>}/>
+            <Route path="/add/" element={<AddTask/>}/>
             <Route path="/edit/:id" element={<EditTask/>}/>
           </Routes>
         </Router>

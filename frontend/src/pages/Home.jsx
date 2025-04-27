@@ -1,16 +1,20 @@
+import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import SubHeader from "../components/SubHeader";
 
 function Home({ title, content, dateCalendar }) {
+    const navigate = useNavigate();
+
   return (
     <div>
+        <SubHeader/>
         <div className="task-container-box">
             <div className="flex items-center space-x-2">
-            <input type="checkbox" id="heading" />
-            <h1 className="text-2xl font-semibold">{title}</h1>
+                <input type="checkbox" id="heading"/>
+                <h1 className="text-2xl font-semibold">{title}</h1>
             </div>
             <div className="ml-4">
-            <h3>{content}</h3>
+                <h3>{content}</h3>
             </div>
             
             <div className="ml-2 flex items-center text-gray-400 w-fit p-1">
