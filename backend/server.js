@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 import axios from 'axios';
 import pg, { Client } from 'pg';
+import dotenv from 'dotenv';
+dotenv.config();
 
 
 const app = express();
@@ -10,11 +12,11 @@ const port = 3000;
 app.use(express.json());
 
 const db = new Client({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'TaskManagement',
-    password: 'tonsa000',
-    port: 2004,
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_DATABASE,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
 });
 
 db.connect();  
