@@ -19,6 +19,34 @@ const db = new Client({
 
 db.connect();  
 
+app.get('/users', async (req, res) => {
+    try {
+        const result = await db.query('SELECT * FROM tasks ORDER BY date ASC');
+        res.json(result.rows);
+    } catch (error) {
+        console.error('Error fetching tasks:', error);
+        res.status(500).json({ error: 'Failed to fetch tasks' });
+    }
+});
+
+// GET a single task
+app.get('/users/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const result = await db.query('SELECT * FROM tasks WHERE id = $1', [id]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Task not found' });
+    }
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Error fetching task:', error);
+    res.status(500).json({ error: 'Failed to fetch task' });
+  }
+});
+
+
+
 
 // My DB for TASK
 app.post('/users', async(req, res) =>{
@@ -34,6 +62,49 @@ app.post('/users', async(req, res) =>{
     }
 })
 
+// Server.js (backend)
+
+// PATCH /tasks/:id
+app.patch('/users/:id', async (req, res) => {
+  const { id } = req.params;
+  const { title, content, date } = req.body; // or whatever fields you allow editing
+
+  try {
+    const result = await db.query(
+      'UPDATE tasks SET title = $1, content = $2, date = $3 WHERE id = $4 RETURNING *',
+      [title, content, date, id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Task not found' });
+    }
+
+    res.json(result.rows[0]); // return updated task
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+  
+
+
+// Recording done task
+
+
+
+
+app.delete('/users/:id', async(req,res) => {
+  const {id} = req.params;
+  try{
+    await db.query('DELETE FROM tasks WHERE id = $1', [id]);
+    res.status(200).json({ message: 'Task deleted successfully' });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: 'Server error' });
+  }
+  }
+)
 
 // Starting the server
 app.listen(port, ()=> {

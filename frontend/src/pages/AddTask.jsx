@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import Button from '../components/Button';
+import { Navigate, useNavigate } from 'react-router-dom';
+
 
 function AddTask() {
   // State to hold the form input values
@@ -9,17 +11,18 @@ function AddTask() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [done, setDone] = useState(false);
+  const navigate = useNavigate();
 
   // Handle form submission
   const handleSubmit = async(event) => {
+    setLoading(true);
+
     event.preventDefault();
     
     
     const newTask = { title, content, date };
     console.log('New Task:', newTask);
 
-    setLoading(true);
-    setError(null);
 
     try{
         const response = await fetch('http://localhost:3000/users',{
@@ -32,14 +35,15 @@ function AddTask() {
 
         if(response.ok){
              // Reseting my form fields
-            setDone(true);
-            setTitle('');
-            setContent('');
-            setDate('');
+            alert('Task added successfully');
+            navigate('/');
+        }else{
+          throw new Error ("failed to add the task");
         }
     }catch(error){
         console.log(`Error: ${error}`);
-        setError('An error occurred while adding the task');
+        alert('Something went wrong. Try again.');
+        navigate('/');
     }finally{
         setLoading(false)
     }
@@ -96,7 +100,7 @@ function AddTask() {
         </div>
 
         {/* Submit Button */}
-        <div className="flex justify-center">
+        <div className="flex justify-end">
           <Button 
             btnText={loading? 'Adding...': 'Add Task'} 
             className={'bg-indigo-600 text-white px-6 py-3 rounded-lg focus-input hover:bg-indigo-700 cursor-pointer'}
